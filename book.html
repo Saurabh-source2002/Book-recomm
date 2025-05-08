@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation System</title>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            const formData = new FormData(this);
+    
+            fetch('/recommend', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Recommended Books: ' + data.recommendations.join(', ')); // Display the recommendations
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your request.');
+            });
+        });
+    </script>    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('bookshelf.png'); /* Replace with your image path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+        h1 {
+            color: #4b0082; /* Indigo color */
+            margin-top: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgb(13, 13, 13);
+        }
+        form {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #6a5acd;
+            border-radius: 12px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="email"],
+        select {
+            margin-bottom: 15px;
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #9370db;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #6a5acd;
+            box-shadow: 0 0 8px rgba(106, 90, 205, 0.5);
+        }
+        button {
+            background: linear-gradient(135deg, #6a5acd, #9370db);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #483d8b, #7b68ee);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Recommendation System</h1>
+    <form action="/recommend" method="post">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter your name" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        
+        <label for="genre">Preferred Genre:</label>
+        <select name="genre" id="genre" required>
+            <option value="">Select a genre</option>
+            <option value="fiction">Fiction</option>
+            <option value="non-fiction">Non-Fiction</option>
+            <option value="mystery">Mystery</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="science-fiction">Science Fiction</option>
+            <option value="biography">Biography</option>
+        </select>
+        
+        <label for="author">Favorite Author:</label>
+        <input type="text" name="author" id="author" placeholder="Enter your favorite author">
+        
+        <button type="submit">Get Recommendations</button>
+    </form>
+</body>
+</html>
